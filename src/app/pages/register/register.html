@@ -1,0 +1,31 @@
+<div class="auth-wrap">
+  <div class="auth-card">
+    
+    <h1>Create Account</h1>
+
+    <form (ngSubmit)="register()">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" name="email" required />
+
+      <label>Password</label>
+      <div class="pwd">
+        <input [type]="showPass ? 'text' : 'password'" [(ngModel)]="password" name="password" required />
+        <button type="button" class="eye" (click)="showPass = !showPass">{{ showPass ? '🙈' : '👁️' }}</button>
+      </div>
+
+      <label>Confirm Password</label>
+      <div class="pwd">
+        <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirm" name="confirm" required />
+        <button type="button" class="eye" (click)="showConfirm = !showConfirm">{{ showConfirm ? '🙈' : '👁️' }}</button>
+      </div>
+
+      <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+
+    <div class="links">
+      <a routerLink="/">Back to Login</a>
+    </div>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </div>
+</div>

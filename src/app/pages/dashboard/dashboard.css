@@ -1,0 +1,101 @@
+/* container */
+.wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px; }
+body, :host { background: linear-gradient(180deg, #f7fbff 0%, #ffffff 40%); }
+
+/* search row */
+.search-row .form-control { min-width: 420px; }
+.search-row .btn { min-width: 130px; }
+
+/* autocomplete (anchored below input) */
+.position-relative { position: relative; }
+.suggest-box {
+  position: absolute;
+  z-index: 20;
+  left: 0; right: 0; top: calc(100% + 6px);
+  list-style: none; margin: 0; padding: .35rem 0;
+  background: #fff; border: 1px solid #e5e7eb; border-radius: .5rem;
+  max-height: 280px; overflow: auto; box-shadow: 0 6px 24px rgba(0,0,0,.07);
+}
+.suggest-box li { padding: .45rem .75rem; cursor: pointer; }
+.suggest-box li:hover, .suggest-box li.active { background: #eef3ff; }
+
+/* muted helper */
+.muted { color: #6b7280; font-weight: 500; }
+
+/* recents */
+.recent-list { margin: .5rem 0 0; padding-left: 0; }
+.recent-list li { list-style: none; }
+.recent-pill {
+  display: inline-flex; gap: .5rem; align-items: center;
+  padding: .45rem .75rem; border-radius: 999px; margin: .25rem .35rem .25rem 0;
+  background:#f5f7fb; cursor: pointer; border:1px solid #e8ecf3; user-select: none;
+}
+.recent-pill:hover { background:#eef3ff; }
+.recent-pill .mode { color:#6b7280; font-size:.85rem; }
+.recent-pill .time { color:#9aa3af; font-size:.8rem; }
+
+/* chart */
+.chart-container { height: 360px; }
+
+/* pollutant cards */
+.pollutant .label { color:#6b7280; font-size:.9rem; }
+.pollutant .value { font-size:1.25rem; font-weight:700; }
+.pollutant .unit  { color:#9aa3af; font-size:.85rem; margin-left:.25rem; }
+
+
+/* ---- AUTOCOMPLETE FIX ---- */
+
+.search-row {
+  position: relative;
+}
+
+.suggest-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  width: calc(100% - 150px); /* Adjust depending on form controls */
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  list-style: none;
+  border: 1px solid #d1d1d1;
+  border-radius: 0.25rem;
+  margin: 4px 0 0;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggest-box li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggest-box li:hover {
+  background: #f5f5f5;
+}
+ 
+/* Autocomplete anchored under the city input */
+.search-row { position: relative; }
+.search-row .position-relative { position: relative; }
+.suggest-box {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 240px;
+  overflow: auto;
+  list-style: none;
+  margin: 0;
+  padding: .35rem 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: .5rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,.07);
+}
+.suggest-box li { padding: .45rem .75rem; cursor: pointer; }
+.suggest-box li:hover { background: #eef3ff; }
+
+/* Keep chart height consistent */
+.chart-container { height: 360px; }

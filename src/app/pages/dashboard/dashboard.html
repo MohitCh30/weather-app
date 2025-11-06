@@ -1,0 +1,132 @@
+<div class="wrap">
+  <h2 class="mb-2">☁️ WeatherApp</h2>
+  <div class="welcome">Welcome, <b>{{ userName }}</b></div>
+
+  <!-- SEARCH BAR (UI unchanged) -->
+  <div class="search-row position-relative d-flex gap-2 align-items-stretch mt-3">
+    <div class="position-relative flex-grow-1">
+      <input class="form-control"
+             [ngModel]="city"
+             (ngModelChange)="onCityInput($event)"
+             placeholder="Enter city name"
+             [disabled]="loading" />
+      <!-- AUTOCOMPLETE anchored under input -->
+      <ul *ngIf="showSuggest" class="suggest-box">
+        <li *ngFor="let s of suggestions" (click)="pickSuggestion(s)">
+          {{ s.name }}, {{ s.country }}
+        </li>
+      </ul>
+    </div>
+
+    <select class="form-select w-auto"
+            [(ngModel)]="mode"
+            (change)="modeChanged()"
+            [disabled]="loading">
+      <option value="current">Current Weather</option>
+      <option value="forecast">Temperature (3-hour intervals)</option>
+      <option value="aqi">Air Quality Index</option>
+    </select>
+
+    <button class="btn btn-primary fw-semibold px-4"
+            (click)="fetch()"
+            [disabled]="loading || !city.trim()">
+      <span *ngIf="!loading">Get Weather</span>
+      <span *ngIf="loading" class="d-inline-flex gap-2 align-items-center">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading…
+      </span>
+    </button>
+  </div>
+
+  <!-- RECENT SEARCHES -->
+  <div *ngIf="loggedIn" class="mt-2">
+    <a class="recent-link" (click)="toggleRecent()">Recent Searches</a>
+    <ul *ngIf="showRecent" class="recent-list">
+      <li *ngFor="let r of recents" (click)="loadRecent(r)" class="recent-pill">
+        <span class="city">{{ r.city }}</span>
+        <span class="mode">{{ r.mode }}</span>
+        <span class="time">{{ r.when | date:'short' }}</span>
+      </li>
+      <li *ngIf="!recents.length" class="text-secondary">No recent searches yet.</li>
+    </ul>
+  </div>
+
+  <!-- RESULTS (never shown until user clicks Get Weather) -->
+  <div *ngIf="hasSearched" class="card shadow-sm mt-4 p-3">
+
+    <!-- error -->
+    <div *ngIf="!loading && error" class="mt-1 text-danger">{{ error }}</div>
+
+    <!-- CURRENT -->
+    <ng-container *ngIf="!loading && !error && result && mode === 'current'">
+      <div class="d-flex align-items-center gap-3">
+        <img *ngIf="iconUrl" [src]="iconUrl" alt="icon" width="72" height="72" />
+        <div>
+          <h3 class="mb-1">
+            {{ displayCity }}
+            <ng-container *ngIf="displayCountry">
+              <span class="muted">({{ displayCountry }})</span>
+            </ng-container>
+          </h3>
+          <div class="lead fw-semibold">
+            {{ result.main?.temp }}°C
+            <span class="text-muted small">Feels like {{ result.main?.feels_like }}°C</span>
+          </div>
+          <div>🌦️ {{ result.weather?.[0]?.main }} — {{ result.weather?.[0]?.description }}</div>
+          <div>💧 Humidity: {{ result.main?.humidity }}%</div>
+          <div>💨 Wind: {{ result.wind?.speed }} m/s</div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- FORECAST -->
+    <ng-container *ngIf="!loading && !error && result && mode === 'forecast'">
+      <h3 class="mb-2">
+        {{ displayCity }}
+        <ng-container *ngIf="displayCountry">
+          <span class="muted">({{ displayCountry }})</span>
+        </ng-container>
+        <span class="muted">— Next 36 hours</span>
+      </h3>
+
+      <div class="chart-container mt-3">
+        <ngx-charts-bar-vertical
+          [results]="forecastData"
+          [scheme]="colorScheme"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [animations]="true"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Time'"
+          [yAxisLabel]="'°C'">
+        </ngx-charts-bar-vertical>
+      </div>
+    </ng-container>
+
+    <!-- AQI -->
+    <ng-container *ngIf="!loading && !error && result && mode === 'aqi'">
+      <h3 class="mb-2">
+        Air Quality Index
+        <span class="badge bg-secondary ms-2">{{ aqiLevel }} — {{ aqiLabel }}</span>
+      </h3>
+
+      <div class="row g-3">
+        <div class="col-6 col-md-3" *ngFor="let p of pollutantList">
+          <div class="pollutant card p-2 text-center">
+            <div class="label">{{ p.label }}</div>
+            <div class="value">{{ p.value }} <span class="unit">{{ p.unit }}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showAqiAdvice" class="mt-3 alert" [ngClass]="aqiAlertClass">
+        {{ aqiAdvice }}
+      </div>
+    </ng-container>
+
+    <!-- loading note (kept minimal) -->
+    <div *ngIf="loading" class="mt-1 text-secondary">⏳ Fetching data…</div>
+  </div>
+</div>

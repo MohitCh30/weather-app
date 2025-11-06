@@ -1,0 +1,12 @@
+<div class="card shadow-sm mt-3" style="width: 20rem; margin:auto;">
+  <div class="card-body text-center">
+    <h5 class="card-title">{{ data?.name }}</h5>
+    <div class="display-6">{{ data?.main?.temp }}°C</div>
+    <div class="text-capitalize">{{ data?.weather?.[0]?.description }}</div>
+    <div class="mt-2">Humidity: {{ data?.main?.humidity }}%</div>
+    <div>Wind: {{ data?.wind?.speed }} m/s</div>
+    <img *ngIf="data?.weather?.[0]?.icon"
+         [src]="'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png'"
+         alt="icon">
+  </div>
+</div>
