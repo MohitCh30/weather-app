@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import initSqlJs, { Database } from 'sql.js';
+
+
+import initSqlJs from 'sql.js/dist/sql-wasm.js';
+
+
+type Database = any;
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
@@ -7,10 +12,10 @@ export class DatabaseService {
 
   async init(): Promise<void> {
     const SQL = await initSqlJs({
-      locateFile: (file:string) => `https://sql.js.org/dist/${file}`
+      locateFile: (file: string) => `https://sql.js.org/dist/${file}`
     });
 
-    // load from localStorage if exists
+    // Load from localStorage if exists
     const saved = localStorage.getItem('weatherDb');
     if (saved) {
       const bytes = new Uint8Array(JSON.parse(saved));
@@ -51,7 +56,7 @@ export class DatabaseService {
     localStorage.setItem('weatherDb', JSON.stringify(Array.from(data)));
   }
 
-  run(query: string, params: (string|number|null)[] = []): void {
+  run(query: string, params: (string | number | null)[] = []): void {
     const stmt = this.db.prepare(query);
     stmt.bind(params);
     while (stmt.step()) { /* exhaust */ }
@@ -59,8 +64,8 @@ export class DatabaseService {
     this.save();
   }
 
-  // returns array of rows as objects
-  all(query: string, params: (string|number|null)[] = []): any[] {
+  // Returns array of rows as objects
+  all(query: string, params: (string | number | null)[] = []): any[] {
     const stmt = this.db.prepare(query);
     stmt.bind(params);
     const rows: any[] = [];
@@ -71,7 +76,7 @@ export class DatabaseService {
     return rows;
   }
 
-  one(query: string, params: (string|number|null)[] = []): any | null {
+  one(query: string, params: (string | number | null)[] = []): any | null {
     const rows = this.all(query, params);
     return rows.length ? rows[0] : null;
   }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WeatherService } from '../../core/weather';
 import { NgxChartsModule, ScaleType, Color } from '@swimlane/ngx-charts';
+import { NgIf } from '@angular/common';
 
 type Mode = 'current' | 'forecast' | 'aqi';
 type Suggest = { name: string; country: string; lat: number; lon: number };
@@ -11,7 +12,7 @@ type Recent = { city: string; mode: Mode; when: number; lat?: number; lon?: numb
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxChartsModule],
+  imports: [CommonModule, FormsModule, NgxChartsModule, NgIf],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
 })
