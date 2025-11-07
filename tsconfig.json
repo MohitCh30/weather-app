@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "compilerOptions": {
     "strict": true,
     "noImplicitOverride": true,
@@ -8,22 +9,15 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "ES2020", // safer for Angular build tools
-    "module": "es2020", // common Angular setting
-    "moduleResolution": "node", // ensures imports work properly
-    "baseUrl": "./", // lets you use relative paths like "@/app/..."
-    "types": [] // avoids pulling in unneeded types
+    "moduleResolution": "node",
+    "module": "ES2020",
+    "types": []
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "typeCheckHostBindings": true,
     "strictTemplates": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/sql.js.d.ts"  // Ensure sql.js types are included
-  ]
+  "include": ["src/**/*.ts"]
 }
