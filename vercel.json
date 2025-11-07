@@ -4,10 +4,15 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist/weather-app" }
+      "config": {
+        "distDir": "dist/weather-app"
+      }
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/dist/weather-app/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/dist/weather-app/index.html"
+    }
   ]
 }
