@@ -1,13 +1,15 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist/weather-app/browser" }
-    }
+    { "src": "package.json", "use": "@vercel/static-build" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+    {
+      "src": "/(.*)",
+      "dest": "/dist/weather-app/browser/index.html"
+    }
+  ],
+  "staticFiles": {
+    "distDir": "dist/weather-app/browser"
+  }
 }
