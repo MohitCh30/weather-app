@@ -143,12 +143,14 @@ export const environment = {
 ### Initialize:
 
 firebase login
+
 firebase init
 
 
 ### Deploy:
 
 ng build --configuration production
+
 firebase deploy
 
 ## 📚 What I Learned
